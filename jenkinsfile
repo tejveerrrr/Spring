@@ -8,8 +8,8 @@ pipeline {
     stages {
         stage("Fetching") {
             steps {
-                git branch: "master", 
-                url: "https://github.com/Rishav518/java"
+                git branch: "main", 
+                url: "https://github.com/tejveerrrr/Spring.git"
             }
         }
         stage("Compile") {
