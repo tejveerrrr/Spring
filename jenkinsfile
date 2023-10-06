@@ -1,26 +1,41 @@
 pipeline {
     agent any
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the source code from your SCM (e.g., Git)
-                checkout scm
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                // Run Maven clean and package goals to build the JAR file
-                sh 'mvn clean package'
-            }
-        }
+
+    tools {
+        maven 'Maven1'
     }
-    
-    post {
-        success {
-            // Archive the JAR file as an artifact
-            archiveArtifacts(artifacts: 'target/*.jar', allowEmptyArchive: true)
+
+    stages {
+        stage("Fetching") {
+            steps {
+                git branch: "main", 
+                url: "https://github.com/tejveerrrr/Spring.git"
+            }
+        }
+        stage("Compile") {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+        stage("Test"){
+            steps{
+                bat 'mvn test-compile'
+            }
+        }
+        stage("Package"){
+            steps{
+                bat 'mvn package'
+            }
+        }
+        stage("Verify"){
+            steps{
+                bat 'mvn verify'
+            }
+        }
+        stage("Install"){
+            steps{
+                bat 'mvn install'
+            }
         }
     }
 }
